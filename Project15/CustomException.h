@@ -6,3 +6,8 @@ class ReadFailException : public std::exception
 {
 	
 };
+
+class WriteFailException : public std::exception
+{
+	
+};

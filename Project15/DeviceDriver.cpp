@@ -26,8 +26,16 @@ int DeviceDriver::read(long address)
     return (int)read_data;
 }
 
+void DeviceDriver::writeException(long address)
+{
+	if(read(address) != 0xFF)
+	{
+		throw WriteFailException();
+	}
+}
+
 void DeviceDriver::write(long address, int data)
 {
-    // TODO: implement this method
+    writeException(address);
     m_hardware->write(address, (unsigned char)data);
 }

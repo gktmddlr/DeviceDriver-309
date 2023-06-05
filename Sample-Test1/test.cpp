@@ -36,3 +36,28 @@ TEST(DeviceDriver, ReadFailTest) {
 
 	EXPECT_THROW(device_driver.read(0x0), std::exception);
 }
+
+TEST(DeviceDriver, WriteTest) {
+	FlashMemoryDeviceMock mock;
+
+	EXPECT_CALL(mock, read(_)).Times(5).WillRepeatedly(Return(0xFF));
+
+	DeviceDriver device_driver(&mock);
+
+	device_driver.write(0x0, 0x06);
+}
+
+TEST(DeviceDriver, WriteFailTest) {
+	FlashMemoryDeviceMock mock;
+
+	EXPECT_CALL(mock, read(_))
+		.WillOnce(Return(0xFF))
+		.WillOnce(Return(0xFF))
+		.WillOnce(Return(0xFF))
+		.WillOnce(Return(0xFF))
+		.WillOnce(Return(0xFE));
+
+	DeviceDriver device_driver(&mock);
+
+	EXPECT_THROW(device_driver.write(0x0, 0x06), std::exception);
+}
