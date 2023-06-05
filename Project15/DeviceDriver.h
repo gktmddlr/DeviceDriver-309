@@ -5,6 +5,7 @@ class DeviceDriver
 {
 public:
     DeviceDriver(FlashMemoryDevice* hardware);
+    void readException(unsigned char read_data, unsigned char data);
     int read(long address);
     void write(long address, int data);
 
